@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-light-blue-100: #f0f9ff;
+  --color-light-blue-200: #e0f2fe;
+
+  --color-badge-green: #dcfce7;
+  --color-badge-red: #fee2e2;
+  --color-badge-yellow: #fef3c7;
+
+  --color-badge-green-text: #166534;
+  --color-badge-red-text: #991b1b;
+  --color-badge-yellow-text: #92400e;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply min-h-screen font-sans antialiased transition-colors duration-300 text-slate-900;
+  @apply bg-gradient-to-br from-slate-50 via-white to-blue-50;
+}
+
+main {
+  @apply min-h-screen pt-10;
+}
+
+h1 {
+  @apply text-5xl md:text-6xl leading-tight tracking-tight font-bold bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600;
+}
+
+h2 {
+  @apply text-xl md:text-2xl font-medium text-slate-600;
+}
+
+label {
+  @apply font-medium text-slate-700;
+}
+
+input,
+textarea {
+  @apply w-full p-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-slate-400;
+}
+
+form {
+  @apply flex flex-col items-start gap-6 w-full;
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600;
+  }
+
+  .gradient-border {
+    @apply p-1 rounded-3xl shadow-sm bg-gradient-to-br from-blue-100/70 via-purple-100/60 to-pink-100/70;
+  }
+
+  .primary-button {
+    @apply text-white rounded-xl px-6 py-3 cursor-pointer w-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-md;
+    @apply bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60;
+  }
+
+  .resume-nav {
+    @apply flex flex-row justify-between items-center p-5 border-b border-slate-200 bg-white/80 transition-colors backdrop-blur-lg;
+  }
+
+  .resume-summary {
+    @apply flex flex-row items-center justify-center p-6 gap-6;
+  }
+
+  .resume-summary .category {
+    @apply flex flex-row gap-3 items-center bg-slate-100 border border-slate-200 rounded-2xl p-4 w-full justify-between transition-colors hover:bg-slate-200;
+  }
+
+  .back-button {
+    @apply flex flex-row items-center gap-2 border border-slate-300 rounded-lg p-2 shadow-sm transition-colors hover:bg-slate-50;
+  }
+
+  .auth-button {
+    @apply text-white rounded-2xl py-4 px-8 cursor-pointer w-[600px] max-md:w-full text-3xl font-semibold transition-all transform hover:scale-105 shadow-lg;
+    @apply bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800;
+  }
+
+  .main-section {
+    @apply flex flex-col items-center gap-12 pt-10 pb-16 px-6 w-full max-w-[1400px] mx-auto;
+  }
+
+  .page-heading {
+    @apply flex flex-col items-center gap-6 max-w-4xl text-center;
+  }
+
+  .resumes-section {
+    @apply flex flex-wrap max-lg:flex-col gap-8 items-start w-full max-w-[1850px] justify-evenly;
+  }
+
+  .resume-card {
+    @apply flex flex-col gap-6 h-[580px] w-full lg:w-[450px] xl:w-[490px] rounded-3xl p-6 border border-slate-100 bg-white shadow-sm transition-all transform hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .resume-card-header {
+    @apply flex flex-row gap-4 justify-between min-h-[110px] max-sm:flex-col items-center max-md:justify-center max-md:items-center;
+  }
+
+  .feedback-section {
+    @apply flex flex-col gap-8 w-1/2 px-8 max-lg:w-full py-8 rounded-3xl border bg-gradient-to-br from-slate-100 to-white border-slate-200;
+  }
+
+  .navbar {
+    @apply flex flex-row justify-between items-center gap-6 backdrop-blur-lg rounded-2xl p-4 w-full px-6 max-w-[1200px] mx-auto shadow-sm border border-white/50 bg-white/80 transition-colors;
+  }
+
+  .score-badge {
+    @apply flex flex-row items-center justify-center py-2 px-4 gap-2 rounded-full font-semibold shadow-sm;
+  }
+
+  .form-div {
+    @apply flex flex-col gap-3 w-full items-start;
+  }
+
+  .uploader-drag-area {
+    @apply relative p-8 text-center transition-all duration-300 cursor-pointer border-2 border-dashed rounded-2xl min-h-[208px];
+    @apply bg-gradient-to-br from-blue-50 to-purple-50 border-blue-300 hover:border-blue-400 hover:from-blue-100 hover:to-purple-100;
+  }
+
+  .uploader-drag-area-active {
+    @apply ring-2 ring-blue-400/60 ring-offset-2 ring-offset-transparent;
+  }
+
+  .uploader-selected-file {
+    @apply flex items-center justify-between p-4 border border-blue-300 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 text-slate-700;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
