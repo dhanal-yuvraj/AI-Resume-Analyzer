@@ -242,27 +242,53 @@ export const usePuterStore = create<PuterStore>((set, get) => {
     };
 
     const init = (): void => {
-        const puter = getPuter();
-        if (puter) {
+        if (typeof window === "undefined") return;
+
+        // If Puter is already loaded (e.g. from a previous HMR cycle), just silence & go
+        const existing = getPuter();
+        if (existing) {
+            (existing as any).quiet = true;
             set({ puterReady: true });
             checkAuthStatus();
             return;
         }
 
-        const interval = setInterval(() => {
-            if (getPuter()) {
-                clearInterval(interval);
-                set({ puterReady: true });
-                checkAuthStatus();
-            }
-        }, 100);
+        // Don't inject the script twice
+        if (document.querySelector('script[src*="js.puter.com"]')) {
+            // Script tag exists but SDK hasn't initialized yet — poll for it
+            const interval = setInterval(() => {
+                const p = getPuter();
+                if (p) {
+                    clearInterval(interval);
+                    (p as any).quiet = true;
+                    set({ puterReady: true });
+                    checkAuthStatus();
+                }
+            }, 100);
 
-        setTimeout(() => {
-            clearInterval(interval);
-            if (!getPuter()) {
-                setError("Puter.js failed to load within 10 seconds");
+            setTimeout(() => {
+                clearInterval(interval);
+                if (!getPuter()) {
+                    setError("Puter.js failed to load within 10 seconds");
+                }
+            }, 10000);
+            return;
+        }
+
+        // Dynamically inject the Puter SDK script
+        const script = document.createElement("script");
+        script.src = "https://js.puter.com/v2/";
+        script.onload = () => {
+            if (window.puter) {
+                (window.puter as any).quiet = true;
             }
-        }, 10000);
+            set({ puterReady: true });
+            checkAuthStatus();
+        };
+        script.onerror = () => {
+            setError("Failed to load Puter.js SDK");
+        };
+        document.head.appendChild(script);
     };
 
     const write = async (path: string, data: string | File | Blob) => {
